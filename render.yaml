@@ -1,9 +1,3 @@
-databases:
-  - name: ar-targets-db
-    databaseName: ar_targets
-    user: ar_targets_user
-    plan: free
-
 services:
   - type: web
     name: ar-targets-api
@@ -21,9 +15,7 @@ services:
       - key: WEB_CONCURRENCY
         value: 4
       - key: DATABASE_URL
-        fromDatabase:
-          name: ar-targets-db
-          property: connectionString
+        value: "sqlite:///db.sqlite3"
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
       - key: DEBUG
