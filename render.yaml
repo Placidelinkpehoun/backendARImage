@@ -1,0 +1,32 @@
+databases:
+  - name: ar-targets-db
+    databaseName: ar_targets
+    user: ar_targets_user
+    plan: free
+
+services:
+  - type: web
+    name: ar-targets-api
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn ar.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DJANGO_SETTINGS_MODULE
+        value: ar.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ar-targets-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DEBUG
+        value: false
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://your-frontend-domain.com,http://localhost:3000" 
