@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: "./build.sh"
-    startCommand: "gunicorn ar.wsgi:application"
+    startCommand: "python -m gunicorn ar.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
@@ -21,4 +21,4 @@ services:
       - key: DEBUG
         value: false
       - key: CORS_ALLOWED_ORIGINS
-        value: "https://your-frontend-domain.com,http://localhost:3000" 
+        value: "http://localhost:3000" 
